@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Meeting's </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">meeting</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="row ">
+                <div class="col-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Order Status</h4>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th> Building</th>
+                                        <th> Address</th>
+                                        <th> Location</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for obj in all %}
+                                    <tr>
+                                        <td> {{obj.building}}</td>
+                                        <td> {{obj.address}}</td>
+                                        <td> {{obj.location}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}

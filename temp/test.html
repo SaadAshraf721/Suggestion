@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+
+<form>
+  <label>First name:</label><br>
+  <input type="text" id="email" value="John"><br>
+  <label>Last name:</label><br>
+  <input type="text" id="phone" value="15415"><br><br>
+  <input onclick="ab()">
+</form>
+<script>
+function ab(){
+    var email = $("#email").val();
+    var phone = $("#phone").val();
+    console.log(email);
+    console.log(phone);
+  $.ajax({
+        url:"/check/?phone="+phone+"&email="+email+"",
+        async: false,
+        success: function(response, textStatus, jqXHR) {
+            swal("Success", {
+                icon: "success",
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+
+            swal("Error", {
+                icon: "error",
+            });
+        },
+    });
+
+}
+
+
+</script>
+
+</body>
+</html>

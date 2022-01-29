@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Meeting Detail's </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">details</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote blockquote-success">
+                            <div class="form-group">
+                                <label><strong>Title:&nbsp;</strong>{{chk.meeting_title}}</label>
+                            </div>
+                            {% if mquest %}
+                            {% for a in mquest %}
+                            <form method="POST" action="/delegateanswer2/">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>{{a.question}} *</label>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="ask"
+                                                           value="True" checked> Yes </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="radio" class="form-check-input" name="ask"
+                                                           value="False"> No </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4" >
+                                            <div class="form-check" >
+                                                    <input type="text" name="uid"
+                                                           value="{{a.user_id}}">
+                                                    <input type="text" name="mid"
+                                                           value="{{a.meeting_id}}">
+                                                    <input type="text" name="qid"
+                                                           value="{{a.id}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-check">
+                                                <button type="submit" class="btn btn-outline-success btn-sm">Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            {% endfor %}
+                            {% else %}
+                            You have success submit your response.
+                            {% endif %}
+
+                        </blockquote>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Today Meeting </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">meeting</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        {% if meet %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th> Title</th>
+                                <th> Meeting No</th>
+                                <th> Start Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for chk in meet %}
+                            <tr>
+                                <td><span class="pl-2">{{chk.meeting_title}}</span></td>
+                                <td><span class="pl-2">
+                                    {% if chk.meeting_no == 0 %}
+                                    First
+                                    {% else %}
+                                    Second
+                                    {% endif %}
+                                </span></td>
+                                <td> {{chk.meeting_date}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        No Meeting Today
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

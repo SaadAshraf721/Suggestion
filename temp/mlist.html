@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Meeting's </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">meeting</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="row ">
+                <div class="col-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Order Status</h4>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th> Title</th>
+                                        <th> Meeting ID</th>
+                                        <th> Meeting Time</th>
+                                        <th> Meeting Date</th>
+                                        <th> Meeting No</th>
+                                        <th> Meeting Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for obj in lists %}
+                                    <tr>
+                                        <td>
+                                            <span class="pl-2"><a
+                                                    href="/logs/{{obj.meeting_id}}">{{obj.meeting_title}}</a></span>
+                                        </td>
+                                        <td> {{obj.meeting_id}}</td>
+                                        <td>
+                                            {{obj.meeting_time}}
+                                        </td>
+                                        <td> {{obj.meeting_date}}</td>
+                                        <td>
+                                            {% if obj.meeting_sts == 0 %}
+                                            <strong>1</strong>
+                                            {% else %}
+                                            <strong>2</strong>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if obj.meeting_sts == 0 and obj.meeting_question == None %}
+                                            <div class="badge badge-outline-primary">Scheduled</div>
+                                            {% elif obj.meeting_sts == 0 and not obj.meeting_question == None %}
+                                            <div class="badge badge-outline-success">Open</div>
+                                            {% else %}
+                                            <div class="badge badge-outline-danger">Closed</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+         

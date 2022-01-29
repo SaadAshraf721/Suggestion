@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title">Meeting's Report</h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">report</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="row">
+              <div class="col-md-10 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                  <form metho="POST" action="/report/">
+                    {% comment %} <h4 class="card-title">Typeahead</h4>
+                    <p class="card-description"> A simple suggestion engine </p> {% endcomment %}
+                    <div class="form-group row">
+                      <div class="col">
+                        <label>Meeting ID</label>
+                        <div id="the-basics">
+                          <input name="mid" type="Text" class="form-control" placeholder="df54fds-f5ds45-fd54-xxxxx" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label>To</label>
+                        <div id="the-basics">
+                          <input name="fr" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label>From</label>
+                        <div id="bloodhound">
+                           <input name="to" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+                        </div>
+                      </div>
+                      <br>
+                      <input type="submit" class="btn btn-primary 2x"/>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% if chk %}
+            <div class="row ">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Latest Meeting Response</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                           <tr>
+                            <th> Title  </th>
+                            <th> Meeting ID </th>
+                            <th> User </th>
+                            <th> Vote </th>
+                            <th> Ask </th>
+                            <th> Start Date </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                         {% for obj in chk %}
+                          <tr>
+                            <td>
+                            {{obj.meeting.title}}
+                            </td>
+                            <td> {{obj.meeting.mid}} </td>
+                            <td> {{obj.user.username}} </td>
+                            <td> 
+                            {% if obj.attan == True %}
+                            <div class="badge badge-outline-success"><i class="mdi mdi-check-circle-outline"></i></div>
+                            {% else %}
+                            {{obj.ask}}<div class="badge badge-outline-danger"><i class="mdi mdi-close-circle-outline"></i></div>
+                            {% endif %}
+                            </td>
+                            <td>{% if obj.answer == True %}
+                            <div class="badge badge-outline-success"><i class="mdi mdi-check-circle-outline"></i></div>
+                            {% else %}
+                            {{obj.ask}}<div class="badge badge-outline-danger"><i class="mdi mdi-close-circle-outline"></i></div>
+                            {% endif %}</td>
+                            <td> {{obj.ts}} </td>
+                          </tr>
+                        {% endfor %}
+                        {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock content %}
+         

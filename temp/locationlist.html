@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;900&display=swap');
+
+
+.container  {
+  border-radius: 6px;
+  margin-top: 2px;
+  background: #495057;
+}
+
+.content {
+  color: white;
+  padding: 16px;
+  font-family: 'Merriweather', serif;
+}
+
+</style>
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Manage Location's </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">locations</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row ">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Locations</h4>
+                        <div class="table-responsive">
+                            <input type="text" class="form-control p_input" name="surname" placeholder="search">
+                            <span style="color:red" id="errorname"></span>
+                            <div class="card " id="tbl">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Location Wise User List {{aa}}</h4>
+                        <div class="table-responsive">
+                            <table class="table" id="usertbl">
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+                <input type="text" id="a" hidden>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit User Detail</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="fm2001">
+                {% csrf_token %}
+                <p>Enter Name</p>
+                <input type="text" id="name" name="name" placeholder="name" value="oh hello"><br>
+                <p>Enter Surname</p>
+                <input type="text" id="surname" name="surname" placeholder="surname"><br>
+                <p>Enter Phone</p>
+                <input type="text" id="phone" name="phone" placeholder="phone"><br>
+                <p>Enter Address</p>
+                <input type="text" id="address" name="address" placeholder="address">
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="updatehit()">Update</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <script>
+    function user_list(location_id){
+            console.log("hittt");
+            console.log(location_id);
+                 $.ajax({
+                url:"/user_onclick/?id="+location_id+"",
+                async: false,
+                success: function(response, textStatus, jqXHR) {
+                    $("#usertbl").html(response.data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    swal("Error", {
+                        icon: "error",
+                    });
+                },
+            });
+    }
+    function update(a){
+            $.ajax({
+                url: "/api/profilesignup/"+a+"",
+                type: "GET",
+                async: false,
+                success: function(response, textStatus, jqXHR) {
+
+                 $("#name").val(response.name);
+                 $("#surname").val(response.surname);
+                 $("#phone").val(response.phone);
+                 $("#address").val(response.address);
+                 $("#a").val(response.id);
+<!--                 swal("record save successfully", {-->
+<!--                        icon: "success",-->
+<!--                    });-->
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                try{
+                $("#errorphone").text(jqXHR.responseJSON.phone[0]);
+                }
+                catch(e){}
+                },
+            });
+    }
+    function updatehit(){
+               var edit_data = $("#fm2001").serialize();
+               var ab = $("#a").val();
+               console.log(edit_data);
+               console.log("hello");
+                $.ajax({
+                    url: "/update_user/"+ab,
+                    type: "post",
+                    data:edit_data ,
+                    async: false,
+                    success: function(response, textStatus, jqXHR) {
+                         swal("record save successfully", {
+                            icon: "success",
+                            });
+                            window.location.href = "/location_list/";
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                     swal("error", {
+                        icon: "error",
+                    });
+                    },
+                });
+                }
+
+  function ab(){
+
+  $.ajax({
+        url:"/api/location/",
+<!--        data: filter_data,-->
+
+        async: false,
+        success: function(response, textStatus, jqXHR) {
+            names = response;
+            $("#tbl").html(response.data);
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+
+            swal("Error", {
+                icon: "error",
+            });
+        },
+    });
+
+}
+ab();
+
+
+
+    </script>
+
+    {% endblock content %}

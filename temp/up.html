@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Import Bulk User </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bulk User</li>
+                </ol>
+            </nav>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote blockquote-success">
+                            <form method="POST" action="/csv/" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% if messages %}
+                                {% for message in messages %}
+
+                                <div class="alert alert-danger" >
+                                    <i class=" mdi mdi-bookmark-remove"></i>
+                                    <span style="font-size:14px">{{ message }}</span></div>
+                                {% endfor %}
+                                {% endif %}
+                                <div class="form-group">
+                                    {% if lstlocation %}
+                                    <label>Location *</label>
+                                    <select class="form-control p_input" name="location" style="color:white">
+                                        {% for a in lstlocation %}
+                                        <option value="{{a.id}}">{{a.building}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% else %}
+                                    <div class="form-group">
+                                        <label>No Location in record *.&nbsp;<br><a href="/location/">Click
+                                            Here</a></label>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label>File *</label>
+                                    <input type="file" class="form-control p_input" name="fl" style="color:white">
+                                </div>
+                                <button type="submit" class="btn btn-outline-success btn-fw">Submit</button>
+                            </form>
+                        </blockquote>
+                        <div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote blockquote-success">
+                            <h4>Read the instruction's</h4>
+                            <ul style="font-size:14px">
+                                <li>Fill all required fields in file.</li>
+                                <li>File type must be excel or csv.</li>
+                                <li>Download the sample file to click button below.</li>
+                            </ul>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% static 'file/file.csv' %}"
+                                                                               class="btn btn-outline-success btn-sm"><i
+                                class="mdi mdi-cloud-download"></i> Download sample file</a>
+                            <table class="table" hidden>
+                                <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Location</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in all %}
+                                <tr>
+                                    <td>{{obj.email}}</td>
+                                    <td>{{obj.phone}}</td>
+                                    <td>{{obj.location.location}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </blockquote>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Notifications </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">notification</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th> User</th>
+                                <th> Delegate from</th>
+                                <th> Meeting Title</th>
+                                <th> Deadline</th>
+                                <th> Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for a in all %}
+                            <tr>
+                                <td class="py-1">
+                                    <img src="{% static 'assets/images/faces-clipart/pic-1.png' %}" alt="image"/>
+                                </td>
+                                <td> {{a.user.email}}</td>
+                                <td> {{a.meeting_id.meeting_title}}</td>
+
+                                <td> {{a.meeting_id.meeting_date}}</td>
+                                <td>
+                                    {% if a.delegated_sts and a.sts == 1 %}
+                                    <div class="col-md-4 d-flex align-items-center">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <i class="mdi mdi mdi-check-circle-outline icon-md text-success"></i>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <a href="/delegtae_answer/{{a.meeting_id_id}}"
+                                       class="badge badge-outline-success">Response</a>
+
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> New Meeting </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Meeting</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote blockquote-success">
+                            <p>New Meeting:</p>
+                            <form method="POST" action="/new_meeting/" >
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>Title *</label>
+                                    <input type="text" class="form-control p_input" name="title" style="color:white" required>
+                                </div>
+                                {% if location_list %}
+                                <div class="form-group">
+                                    <label>Location *</label>
+                                    <select class="form-control p_input" name="loc" style="color:white" required>
+                                        {% for object in location_list %}
+                                        <option value="{{object.id}}">{{object.building}},&nbsp;{{object.address}},&nbsp;{{object.location}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% else %}
+                                <div class="form-group">
+                                    <label>No Location in record *.&nbsp;<br><a href="/location/">Click Here</a></label>
+                                </div>
+                                {% endif %}
+                                <div class="form-group">
+                                    <label>Meeting Date *</label>
+                                    <input type="date" id="txtDate" class="form-control p_input" name="date" style="color:white" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Meeting Time *</label>
+                                    <input type="time" class="form-control p_input" name="time" style="color:white" required>
+                                </div>
+                                <input hidden type="text" name="meeting_id" value="{{code}}"/>
+                                <button type="submit" class="btn btn-outline-success btn-fw">Select</button>
+                        </blockquote>
+                        <div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+function hit(){
+   var edit_data = $("#fm1").serialize();
+    $.ajax({
+        url: "/new_meeting/",
+        type: "POST",
+        dataType: "json",
+        data: edit_data,
+        async: false,
+        success: function(response, textStatus, jqXHR) {
+         swal("record save successfully", {
+                icon: "success",
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        try{
+        $("#errorname").text(jqXHR.responseJSON.phone[0]);
+        }
+        catch(e){}
+        try{$("#errorname").text(jqXHR.responseJSON.building[0]);
+        }
+
+        catch(e){
+
+
+        }
+        },
+    });
+    }
+
+    </script>
+
+    {% endblock content %}
+         

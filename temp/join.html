@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Today Meeting </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">meeting</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        {% if meet %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th> Title</th>
+                                <th> Start Date</th>
+                                <th> Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for chk in meet %}
+                            <tr>
+                                <td><span class="pl-2">{{chk.meeting_title}}</span></td>
+                                <td> {{chk.meeting_date}}, &nbsp; {{chk.meeting_time}}</td>
+                                {% if chk.meeting_sts == False  %}
+                                {% if chk.act %}
+                                {% if chk.dat %}
+                                <td>
+                                    <a href="/answer/{{chk.meeting_id}}"
+                                       class="badge badge-outline-success">Join</a>
+                                 </td>
+                                {% else %}
+                                <td>
+                                    <a href="#"
+                                       class="badge badge-outline-success">Wait</a>
+                                 </td>
+                                {% endif %}
+                                {% else %}
+                                <td>
+                                    <a href="/meetingattend/{{chk.meeting_id}}"
+                                       class="badge badge-outline-success">Attend</a>
+                                    <a href="/daligate/{{chk.meeting_id}}"
+                                       class="badge badge-outline-primary">Daligate
+                                        to Friend</a>
+                                </td>
+                                {% endif %}
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        No Meeting Today
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endblock content %}

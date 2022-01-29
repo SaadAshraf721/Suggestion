@@ -1,0 +1,10 @@
+{% for a in dat %}
+<div class="container">
+    <p style="padding-top:16px"><strong>{{a.building}}</strong> ,&nbsp;
+        {{a.address}} &nbsp;<br>
+        {{a.location}}
+    <button class="btn btn-outline-success btn-sm" onclick="user_list({{a.id}})" style="float:right;margin-top:-3px;font-size:10px">show detail</button></p>
+</div>
+<hr>
+{% endfor %}
+

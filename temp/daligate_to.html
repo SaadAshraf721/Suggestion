@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Delegate </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/uindex/">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Location</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        {% if all %}
+                        <blockquote class="blockquote blockquote-success">
+                            <form method="post" action="/daligate/{{meet_id}}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>Deligate To *</label>
+                                    <select type="text" class="form-control p_input" name="uname">
+                                        {% for a in all %}
+                                        <option value="{{a.uid_id}}">{{a.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span style="color:red;font-size:12px" id="errorname"></span>
+                                </div>
+                                <div>
+                                    <input class="btn btn-outline-success btn-fw" type="submit"
+                                           value="Submit">
+                                </div>
+
+                            </form>
+                        </blockquote>
+                        {% else %}
+                        <blockquote class="blockquote blockquote-danger">
+                            You don't have any person in your dalegate list.
+                        </blockquote>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+function hit(){
+   var edit_data = $("#fm1").serialize();
+    $.ajax({
+        url: "/api/location/",
+        type: "POST",
+
+        dataType: "json",
+        data: edit_data,
+        async: false,
+        success: function(response, textStatus, jqXHR) {
+         swal("record save successfully", {
+                icon: "success",
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        try{
+        $("#errorname").text(jqXHR.responseJSON.phone[0]);
+        }
+        catch(e){}
+        try{$("#errorname").text(jqXHR.responseJSON.building[0]);
+        }
+
+        catch(e){
+
+
+        }
+        },
+    });
+    }
+
+    </script>
+    {% endblock content %}

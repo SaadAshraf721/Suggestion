@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> User Registration Code </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">code</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="row">
+               <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <blockquote class="blockquote blockquote-success">
+                      <p>User Registration Code is:</p>
+                      <h4><footer class="blockquote-footer">{{code}}</footer></h4>
+                    </blockquote>
+                    <div>
+                    <form method="POST" action="/code/">
+                    {% csrf_token %}
+                    <input hidden type="text" name="code" value="{{code}}"/>
+                    <button type="submit" class="btn btn-outline-primary btn-fw">Select</button>
+                    <a href="/code/" class="btn btn-outline-danger btn-fw">Change</a>
+                    </form>
+                  </div>
+                  </div>
+                  
+                </div>
+               </div>
+            </div>
+          </div>
+{% endblock content %}
+         
